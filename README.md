@@ -13,6 +13,8 @@ to retrieve a sample.
 
 Open the project file Mars_Rover_Terrain.prj to get started.
 
+[![View Mars Rover Model in Simscape on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/105700-mars-rover-model-in-simscape)
+
 ## **Mars Rover Animation Clip**
 ![](Images/mars_rover_terrain_sideview_clip.gif)
 
