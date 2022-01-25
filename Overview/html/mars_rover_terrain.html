@@ -1,0 +1,179 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Mars Rover on Uneven Terrain</title><meta name="generator" content="MATLAB 9.11"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2022-01-13"><meta name="DC.source" content="mars_rover_terrain.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Mars Rover on Uneven Terrain</h1><!--introduction--><p>This example shows a six-wheeled autonomous vehicle driving on uneven terrain. The vehicle has a robotic arm that collects a sample from the ground and inserts it into a storage compartment onboard the vehicle. The powertrain can be modeled with ideal actuators or with an electrical network.</p><p>See documentation for workflows shown in this example:</p><div><ol><li><a href="matlab:web('mars_rover_workflow_grid_surface.html')">Terrain Definition</a></li><li><a href="matlab:web('mars_rover_workflow_point_cloud.html')">Point Cloud</a></li><li><a href="matlab:web('mars_rover_workflow_inverse_kinematics.html')">Robot Arm Inverse Kinematics</a></li><li><a href="matlab:edit('mars_rover_terrain_path_following.mlx')">Path Following</a></li></ol></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Model</a></li><li><a href="#2">Rover Subsystem</a></li><li><a href="#3">Chassis Subsystem</a></li><li><a href="#4">Arm Subsystem</a></li><li><a href="#5">Terrain Subsystem</a></li><li><a href="#6">Simulation Results from Simscape Logging: Path 1</a></li><li><a href="#7">Simulation Results from Simscape Logging: Path 2</a></li><li><a href="#8">Simulation Results from Simscape Logging: Path 2 Electrical</a></li><li><a href="#9">Simulation Results from Simscape Logging: Path 2 Electrical, Flat</a></li></ul></div><h2 id="1">Model</h2><img vspace="5" hspace="5" src="mars_rover_terrain_01.png" alt=""> <h2 id="2">Rover Subsystem</h2><img vspace="5" hspace="5" src="mars_rover_terrain_02.png" alt=""> <h2 id="3">Chassis Subsystem</h2><img vspace="5" hspace="5" src="mars_rover_terrain_03.png" alt=""> <h2 id="4">Arm Subsystem</h2><img vspace="5" hspace="5" src="mars_rover_terrain_04.png" alt=""> <h2 id="5">Terrain Subsystem</h2><img vspace="5" hspace="5" src="mars_rover_terrain_05.png" alt=""> <h2 id="6">Simulation Results from Simscape Logging: Path 1</h2><p>This shows the results for path 1 where the rover is driven with an ideal torque sources on uneven terrain.</p><img vspace="5" hspace="5" src="mars_rover_terrain_06.png" alt=""> <img vspace="5" hspace="5" src="mars_rover_terrain_07.png" alt=""> <img vspace="5" hspace="5" src="mars_rover_terrain_08.png" alt=""> <h2 id="7">Simulation Results from Simscape Logging: Path 2</h2><p>This shows the results for path 2 where the rover is driven with an ideal torque sources on uneven terrain.  The destination is the same but the rover approaches from a different side.  The terrain elevation and position at the sample is different from path 1.  The inverse kinematic algorithm uses the measured position of the sample relative to the rover to find joint angles that will permit the sample to be obtained.</p><img vspace="5" hspace="5" src="mars_rover_terrain_09.png" alt=""> <img vspace="5" hspace="5" src="mars_rover_terrain_10.png" alt=""> <h2 id="8">Simulation Results from Simscape Logging: Path 2 Electrical</h2><p>The model is configured to model the electrical system of the powertrain, including 6 motors for propulsion and 4 motors for steering. The results of the simulation include the current drawn by the motors as it follows path 2.</p><img vspace="5" hspace="5" src="mars_rover_terrain_11.png" alt=""> <img vspace="5" hspace="5" src="mars_rover_terrain_12.png" alt=""> <img vspace="5" hspace="5" src="mars_rover_terrain_13.png" alt=""> <img vspace="5" hspace="5" src="mars_rover_terrain_14.png" alt=""> <h2 id="9">Simulation Results from Simscape Logging: Path 2 Electrical, Flat</h2><p>The model is configured to model the electrical system of the powertrain, including 6 motors for propulsion and 4 motors for steering. To simplify the test, we put the rover on flat ground, but follow the same x-y trajectory.  We can see the difference in current drawn by the motors.</p><img vspace="5" hspace="5" src="mars_rover_terrain_15.png" alt=""> <img vspace="5" hspace="5" src="mars_rover_terrain_16.png" alt=""> <img vspace="5" hspace="5" src="mars_rover_terrain_17.png" alt=""> <p class="footer">Copyright 2021-2022 The MathWorks, Inc.<br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2021b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Mars Rover on Uneven Terrain
+% 
+% This example shows a six-wheeled autonomous vehicle driving on uneven
+% terrain. The vehicle has a robotic arm that collects a sample from the
+% ground and inserts it into a storage compartment onboard the vehicle.
+% The powertrain can be modeled with ideal actuators or with an electrical
+% network.
+%
+% See documentation for workflows shown in this example: 
+% 
+% # <matlab:web('mars_rover_workflow_grid_surface.html') Terrain
+% Definition>
+% # <matlab:web('mars_rover_workflow_point_cloud.html') Point
+% Cloud>
+% # <matlab:web('mars_rover_workflow_inverse_kinematics.html') Robot Arm Inverse Kinematics>  
+% # <matlab:edit('mars_rover_terrain_path_following.mlx') Path Following>  
+% 
+% Copyright 2021-2022 The MathWorks, Inc.
+
+%% Model
+
+open_system('mars_rover_terrain')
+
+set_param(find_system('mars_rover_terrain','FindAll','on','type','annotation','Tag','ModelFeatures'),'Interpreter','off');
+
+%% Rover Subsystem
+
+open_system('mars_rover_terrain/Rover','force')
+
+%% Chassis Subsystem
+
+open_system('mars_rover_terrain/Rover/Chassis','force')
+
+%% Arm Subsystem
+
+open_system('mars_rover_terrain/Rover/Arm','force')
+
+%% Terrain Subsystem
+
+open_system('mars_rover_terrain/Rover/Terrain','force')
+
+%% Simulation Results from Simscape Logging: Path 1
+%
+% This shows the results for path 1 where the rover is driven with an ideal
+% torque sources on uneven terrain.
+
+set_param(['mars_rover_terrain/Rover/Chassis/Powertrain'],'popup_powertrain','Ideal');
+rover_path = rover_path1;
+mars_terrain_set_z('uneven');
+sim('mars_rover_terrain');
+mars_rover_terrain_plot1_chassis_path
+mars_rover_terrain_plot3_wheelspdtrq
+mars_rover_terrain_plot2_arm_path(logsout_mars_rover_terrain)
+
+%% Simulation Results from Simscape Logging: Path 2
+%
+% This shows the results for path 2 where the rover is driven with an ideal
+% torque sources on uneven terrain.  The destination is the same but the
+% rover approaches from a different side.  The terrain elevation and
+% position at the sample is different from path 1.  The inverse kinematic
+% algorithm uses the measured position of the sample relative to the rover
+% to find joint angles that will permit the sample to be obtained.
+
+rover_path = rover_path2;
+mars_terrain_set_z('uneven');
+set_param(['mars_rover_terrain/Rover/Chassis/Powertrain'],'popup_powertrain','Ideal');
+sim('mars_rover_terrain');
+mars_rover_terrain_plot1_chassis_path
+mars_rover_terrain_plot3_wheelspdtrq
+
+%% Simulation Results from Simscape Logging: Path 2 Electrical
+%
+% The model is configured to model the electrical system of the powertrain,
+% including 6 motors for propulsion and 4 motors for steering. The results
+% of the simulation include the current drawn by the motors as it follows
+% path 2.
+
+set_param(['mars_rover_terrain/Rover/Chassis/Powertrain'],'popup_powertrain','Electrical');
+open_system('mars_rover_terrain/Rover/Chassis/Powertrain/Electrical/Drive','force')
+rover_path = rover_path2;
+mars_terrain_set_z('uneven');
+sim('mars_rover_terrain');
+mars_rover_terrain_plot1_chassis_path
+mars_rover_terrain_plot4_motorspdcurr
+mars_rover_terrain_plot2_arm_path(logsout_mars_rover_terrain)
+
+%% Simulation Results from Simscape Logging: Path 2 Electrical, Flat
+%
+% The model is configured to model the electrical system of the powertrain,
+% including 6 motors for propulsion and 4 motors for steering. To simplify
+% the test, we put the rover on flat ground, but follow the same x-y
+% trajectory.  We can see the difference in current drawn by the motors.
+
+set_param(['mars_rover_terrain/Rover/Chassis/Powertrain'],'popup_powertrain','Electrical');
+open_system('mars_rover_terrain/Rover/Chassis/Powertrain/Electrical/Drive','force')
+rover_path = rover_path2;
+mars_terrain_set_z('flat');
+sim('mars_rover_terrain');
+mars_rover_terrain_plot1_chassis_path
+mars_rover_terrain_plot4_motorspdcurr
+mars_rover_terrain_plot2_arm_path(logsout_mars_rover_terrain)
+%%
+
+%clear all
+close all
+bdclose all
+##### SOURCE END #####
+--></body></html>

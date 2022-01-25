@@ -1,0 +1,282 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Planning Trajectory for Rover Arm: Inverse Kinematics</title><meta name="generator" content="MATLAB 9.11"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2022-01-13"><meta name="DC.source" content="mars_rover_workflow_inverse_kinematics.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Planning Trajectory for Rover Arm: Inverse Kinematics</h1><!--introduction--><p>This example shows how to obtain the joint angles that will enable the end effector of the rover manipulator to pass through specific x-y-z coordinates with a specific orientation.  The inverse kinematics object used for the analysis is obtained from a test harness model, <a href="matlab:open_system('mars_rover_arm')">mars_rover_arm</a>, which can be used to test the resulting trajectory.</p><p>Return to main example <a href="matlab:web('mars_rover_terrain.html');">mars_rover_terrain</a></p><p>Copyright 2021-2022 The MathWorks, Inc</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Open the Test Harness Model</a></li><li><a href="#3">Define Waypoints for the Robot Arm</a></li><li><a href="#4">Generate Inverse Kinematics Object</a></li><li><a href="#7">Perform IK Analysis to Obtain Joint Angles</a></li><li><a href="#15">Test Model with Joint Angles Obtained from Inverse Kinematic Analysis</a></li></ul></div><h2 id="1">Open the Test Harness Model</h2><p>Open <a href="matlab:open_system('mars_rover_arm')">mars_rover_arm.slx</a>.</p><img vspace="5" hspace="5" src="mars_rover_workflow_inverse_kinematics_01.png" alt=""> <p>This subsystem shows the parts and the joints that connect them.  These joints will be referenced in the inverse kinematics object.</p><img vspace="5" hspace="5" src="mars_rover_workflow_inverse_kinematics_02.png" alt=""> <h2 id="3">Define Waypoints for the Robot Arm</h2><p>The tip of the drill at the of the robot arm must pass through predefined waypoints in order to collect the sample and place it in the storage container on the rover. The waypoints are defined by the position and orientation of the rigid body frame at the tip of the drill. Six numerical values are used to define the waypoint:</p><div><ul><li>x, y, and z position relative to the rigid body frame at the arm base</li><li>alpha, beta, and gamma angles that define an intrinsic X-Y-Z rotation relative to the rigid body frame at the arm base</li></ul></div><p>A <a href="matlab:web(fullfile(docroot,'matlab/matlab_prog/create-a-table.html'))">MATLAB table</a> is used to define the waypoints so that it is clear what the numerical values represent.  To see the code that defines the MATLAB table, open the script <a href="matlab:edit('mars_rover_arm_task_space.m')">mars_rover_arm_task_space.m</a></p><pre class="codeoutput">                   X          Y          Z       alpha    beta    gamma
+                _______    _______    _______    _____    ____    _____
+
+    Home            0.1       0.38     0.4951       0      0        0  
+    Undock          0.1       0.38       0.65      10      0        0  
+    Sample      -0.4284    -1.1828    -1.0289     175      0       91  
+    Approach    -0.4284    -1.1828    -0.9289     175      0       91  
+    Prepare     -0.4284          0     0.1259     270      0       90  
+    Storage     -0.4284       0.15     0.1259     270      0       90  
+    Return          0.1       0.38       0.85      10      0        0  
+
+</pre><h2 id="4">Generate Inverse Kinematics Object</h2><p>The inverse kinematic analysis is performed using <a href="matlab:web(fullfile(docroot,'physmod/sm/ref/simscape.multibody.kinematicssolver.html'))">kinematicsSolver object</a>. The kinematicsSolver object is created using a Simscape Multibody model, in this case mars_rover_arm. You add the known and unknown kinematic variables in the object and use the <a href="matlab:web(fullfile(docroot,'physmod/sm/ref/simscape.multibody.kinematicssolver.solve.html'))">solve</a> object function to obtain the values of the unknown kinematic variables.</p><p>Open <a href="matlab:edit('mars_rover_arm_ik_object_create.m')">mars_rover_arm_ik_object_create</a> to see the code that defines the kinematicsSolver object ks_mars_rover.</p><p>In the case of our robot arm, we know the waypoints the drill tip must reach, and need to determine the joint angles.  We create the kinematicsSolver object by defining frameVariables for the waypoint locations.</p><pre class="codeoutput">
+ans = 
+
+  6&times;1 string array
+
+    "Home.Translation.x"
+    "Home.Translation.y"
+    "Home.Translation.z"
+    "Home.Rotation.x"
+    "Home.Rotation.y"
+    "Home.Rotation.z"
+
+</pre><p>The joint angles are added as output variables, and will be the result of the kinematics analysis.</p><pre class="codeoutput">
+ans = 
+
+  6&times;1 string array
+
+    "mars_rover_arm/Arm/Revolute 1 Shoulder LR"
+    "mars_rover_arm/Arm/Revolute 2 Shoulder UD"
+    "mars_rover_arm/Arm/Revolute 3 Elbow"
+    "mars_rover_arm/Arm/Revolute 4 Wrist UD"
+    "mars_rover_arm/Arm/Revolute 5 Wrist LR"
+    "mars_rover_arm/Arm/Revolute 6 EE UD"
+
+</pre><p>To guide the solver to a desirable solution (especially important if there are multiple solutions), we add initial guess values where we can specify the starting point for finding the solution. The initial guess is stored in MATLAB table eeConfig.Joint_IG</p><pre class="codeoutput">                  q1        q2         q3        q4         q5      q6 
+                ______    _______    ______    _______    ______    ___
+
+    Home             0       -145        40       -180       180    180
+    Undock           0       -145        40       -180       180    180
+    Sample          90       -200        90         40       170    -10
+    Approach        90       -200        90         40       170    -10
+    Prepare     66.556    -185.92    38.594    -44.517    156.56     90
+    Storage     66.556    -185.92    38.594    -44.517    156.56     90
+    Return           0       -145        40       -180       180    180
+
+</pre><h2 id="7">Perform IK Analysis to Obtain Joint Angles</h2><p>An inverse kinematics analysis is performed using the <a href="matlab:web(fullfile(docroot,'physmod/sm/ref/simscape.multibody.kinematicssolver.solve.html'))">solve</a> object function to obtain the joint angles that enable the drill tip to pass through the waypoints at the desired orientation.  See <a href="matlab:edit('mars_rover_arm_test_joint_space.m')">mars_rover_arm_test_joint_space.m</a> to look at the code that performs this analysis.</p><p>The screenshots below show the arm in the position defined by the solution that comes from the IK analysis at each waypoint.  It is displayed using the command <a href="matlab:web(fullfile(docroot,'physmod/sm/ref/viewsolution.html'))">viewSolution</a>.</p><p><b>Arm at "Home" Waypoint</b></p><p><img vspace="5" hspace="5" src="mars_rover_arm_IK_viewSolution_1.png" alt=""> </p><p><b>Arm at "Undock" Waypoint</b></p><p><img vspace="5" hspace="5" src="mars_rover_arm_IK_viewSolution_2.png" alt=""> </p><p><b>Arm at "Sample" Waypoint</b></p><p><img vspace="5" hspace="5" src="mars_rover_arm_IK_viewSolution_3.png" alt=""> </p><p><b>Arm at "Approach" Waypoint</b></p><p><img vspace="5" hspace="5" src="mars_rover_arm_IK_viewSolution_4.png" alt=""> </p><p><b>Arm at "Prepare" Waypoint</b></p><p><img vspace="5" hspace="5" src="mars_rover_arm_IK_viewSolution_5.png" alt=""> </p><p><b>Arm at "Storage" Waypoint</b></p><p><img vspace="5" hspace="5" src="mars_rover_arm_IK_viewSolution_6.png" alt=""> </p><p><b>Arm at "Return" Waypoint</b></p><p><img vspace="5" hspace="5" src="mars_rover_arm_IK_viewSolution_7.png" alt=""> </p><h2 id="15">Test Model with Joint Angles Obtained from Inverse Kinematic Analysis</h2><p>We can test the result of our inverse kinematic analysis by using the joint angles as the command to our control system.  A PID controller attempts to track those joint angles and maneuver the arm to each waypoint.</p><p><b>Plot of the drill tip trajectory</b></p><img vspace="5" hspace="5" src="mars_rover_workflow_inverse_kinematics_03.png" alt=""> <p><b>Plot of joint angles versus time</b></p><img vspace="5" hspace="5" src="mars_rover_workflow_inverse_kinematics_04.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2021b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Planning Trajectory for Rover Arm: Inverse Kinematics
+% 
+% This example shows how to obtain the joint angles that will enable the
+% end effector of the rover manipulator to pass through specific x-y-z
+% coordinates with a specific orientation.  The inverse kinematics object
+% used for the analysis is obtained from a test harness model,
+% <matlab:open_system('mars_rover_arm') mars_rover_arm>, which can be used
+% to test the resulting trajectory.
+% 
+% Return to main example <matlab:web('mars_rover_terrain.html');
+% mars_rover_terrain>
+%
+% Copyright 2021-2022 The MathWorks, Inc
+
+
+%% Open the Test Harness Model
+%
+% Open <matlab:open_system('mars_rover_arm') mars_rover_arm.slx>.
+
+open_system('mars_rover_arm');
+
+%% 
+% This subsystem shows the parts and the joints that connect them.  These
+% joints will be referenced in the inverse kinematics object.
+
+open_system('mars_rover_arm/Arm','force');
+
+%% Define Waypoints for the Robot Arm
+%
+% The tip of the drill at the of the robot arm must pass through predefined
+% waypoints in order to collect the sample and place it in the storage
+% container on the rover. The waypoints are defined by the position and
+% orientation of the rigid body frame at the tip of the drill. Six
+% numerical values are used to define the waypoint: 
+% 
+% * x, y, and z position relative to the rigid body frame at the arm base
+% * alpha, beta, and gamma angles that define an intrinsic X-Y-Z rotation
+% relative to the rigid body frame at the arm base
+%
+% A <matlab:web(fullfile(docroot,'matlab/matlab_prog/create-a-table.html')) MATLAB table> is used to
+% define the waypoints so that it is clear what the numerical values
+% represent.  To see the code that defines the MATLAB table, open the
+% script <matlab:edit('mars_rover_arm_task_space.m')
+% mars_rover_arm_task_space.m>
+
+disp(eeConfig.Targets)
+
+
+%% Generate Inverse Kinematics Object
+%
+% The inverse kinematic analysis is performed using
+% <matlab:web(fullfile(docroot,'physmod/sm/ref/simscape.multibody.kinematicssolver.html'))
+% kinematicsSolver object>. The kinematicsSolver object is created using a
+% Simscape Multibody model, in this case mars_rover_arm. You add the
+% known and unknown kinematic variables in the object and use the
+% <matlab:web(fullfile(docroot,'physmod/sm/ref/simscape.multibody.kinematicssolver.solve.html'))
+% solve> object function to obtain the values of the unknown kinematic
+% variables.  
+%
+% Open <matlab:edit('mars_rover_arm_ik_object_create.m')
+% mars_rover_arm_ik_object_create> to see the code that defines the
+% kinematicsSolver object ks_mars_rover.
+%
+% In the case of our robot arm, we know the waypoints the drill tip must
+% reach, and need to determine the joint angles.  We create the
+% kinematicsSolver object by defining frameVariables for the waypoint
+% locations. 
+% 
+
+ks_mars_rover.frameVariables.ID
+
+%%
+% The joint angles are added as output variables, and will be
+% the result of the kinematics analysis.  
+
+ks_mars_rover.jointPositionVariables.BlockPath
+
+%%
+% To guide the solver to a desirable solution (especially important if
+% there are multiple solutions), we add initial guess values where we can
+% specify the starting point for finding the solution. The initial guess is
+% stored in MATLAB table eeConfig.Joint_IG
+
+disp(eeConfig.Joint_IG)
+
+
+%% Perform IK Analysis to Obtain Joint Angles
+%
+% An inverse kinematics analysis is performed using the
+% <matlab:web(fullfile(docroot,'physmod/sm/ref/simscape.multibody.kinematicssolver.solve.html'))
+% solve> object function to obtain the joint angles that enable the drill
+% tip to pass through the waypoints at the desired orientation.  See
+% <matlab:edit('mars_rover_arm_test_joint_space.m')
+% mars_rover_arm_test_joint_space.m> to look at the code that performs this
+% analysis.
+%
+% The screenshots below show the arm in the position defined by the
+% solution that comes from the IK analysis at each waypoint.  It is
+% displayed using the command
+% <matlab:web(fullfile(docroot,'physmod/sm/ref/viewsolution.html'))
+% viewSolution>.
+
+mars_rover_arm_test_joint_space
+arm_joint_traj_final = arm_joint_traj;
+bdclose('mars_rover_arm')
+
+%%
+% *Arm at "Home" Waypoint*
+%
+% <<mars_rover_arm_IK_viewSolution_1.png>>
+
+%%
+% *Arm at "Undock" Waypoint*
+%
+% <<mars_rover_arm_IK_viewSolution_2.png>>
+
+%%
+% *Arm at "Sample" Waypoint*
+%
+% <<mars_rover_arm_IK_viewSolution_3.png>>
+
+%%
+% *Arm at "Approach" Waypoint*
+%
+% <<mars_rover_arm_IK_viewSolution_4.png>>
+
+%%
+% *Arm at "Prepare" Waypoint*
+%
+% <<mars_rover_arm_IK_viewSolution_5.png>>
+
+%%
+% *Arm at "Storage" Waypoint*
+%
+% <<mars_rover_arm_IK_viewSolution_6.png>>
+
+%%
+% *Arm at "Return" Waypoint*
+%
+% <<mars_rover_arm_IK_viewSolution_7.png>>
+
+%% Test Model with Joint Angles Obtained from Inverse Kinematic Analysis
+% 
+% We can test the result of our inverse kinematic analysis by using the
+% joint angles as the command to our control system.  A PID controller
+% attempts to track those joint angles and maneuver the arm to each
+% waypoint.
+%
+% *Plot of the drill tip trajectory*
+
+load_system('mars_rover_arm')
+arm_joint_traj = arm_joint_traj_final;
+sim('mars_rover_arm')
+mars_rover_terrain_plot2_arm_path(logsout_mars_rover_arm)
+
+%%
+%
+% *Plot of joint angles versus time*
+mars_rover_terrain_plot5_armangles(logsout_mars_rover_arm)
+
+%%
+close all
+bdclose('mars_rover_arm')
+##### SOURCE END #####
+--></body></html>

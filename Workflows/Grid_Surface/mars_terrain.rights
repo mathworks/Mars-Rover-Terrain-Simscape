@@ -1,0 +1,19 @@
+Attribution for Data and Tools Used to Create file mars_terrain.stl
+
+The file mars_terrain.stl was created using 
+    TouchTerrain: Easily Create 3D-Printable Terrain Models (ver. 0105)  
+    Obtained December 21, 2021 from https://touchterrain.geol.iastate.edu/
+    2021 TouchTerrain—3D Printable Terrain Model paper: 
+       https://www.mdpi.com/2220-9964/10/3/108.
+
+TouchTerrain accesses data using Google Earth.
+    Map data (C) 2022 Google
+
+The production and usage of this data adheres to 
+"Google Maps/Google Earth Additional Terms of Service"
+    https://www.google.com/intl/en-US_US/help/terms_maps/
+
+The data source for the terrain courtesy of the U.S. Geological Survey
+    https://developers.google.com/earth-engine/datasets/catalog/USGS_3DEP_10m
+    U.S. Geological Survey, 3D Elevation Program 10-Meter Resolution Digital Elevation Model.
+    Visit the USGS at https://usgs.gov
