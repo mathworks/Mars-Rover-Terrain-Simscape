@@ -1,6 +1,6 @@
 %% Script to setup parameters for the rover arm 
 
-% Copyright 2021-2022 The MathWorks, Inc
+% Copyright 2021-2023 The MathWorks, Inc
 
 %% Arm Joint Params
 Rover.Arm.ShoulderLR.D = 0.5; % N*m/(deg/s)

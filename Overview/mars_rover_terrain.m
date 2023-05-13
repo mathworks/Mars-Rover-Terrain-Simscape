@@ -15,7 +15,7 @@
 % # <matlab:web('mars_rover_workflow_inverse_kinematics.html') Robot Arm Inverse Kinematics>  
 % # <matlab:edit('mars_rover_terrain_path_following.mlx') Path Following>  
 % 
-% Copyright 2021-2022 The MathWorks, Inc.
+% Copyright 2021-2023 The MathWorks, Inc.
 
 %% Model
 
@@ -44,7 +44,7 @@ open_system('mars_rover_terrain/Rover/Terrain','force')
 % This shows the results for path 1 where the rover is driven with an ideal
 % torque sources on uneven terrain.
 
-set_param(['mars_rover_terrain/Rover/Chassis/Powertrain'],'popup_powertrain','Ideal');
+set_param('mars_rover_terrain/Rover/Chassis/Powertrain','popup_powertrain','Ideal');
 rover_path = rover_path1;
 mars_terrain_set_z('uneven');
 sim('mars_rover_terrain');
@@ -63,10 +63,25 @@ mars_rover_terrain_plot2_arm_path(logsout_mars_rover_terrain)
 
 rover_path = rover_path2;
 mars_terrain_set_z('uneven');
-set_param(['mars_rover_terrain/Rover/Chassis/Powertrain'],'popup_powertrain','Ideal');
+set_param('mars_rover_terrain/Rover/Chassis/Powertrain','popup_powertrain','Ideal');
 sim('mars_rover_terrain');
 mars_rover_terrain_plot1_chassis_path
 mars_rover_terrain_plot3_wheelspdtrq
+
+%% Simulation Results from Simscape Logging: Path 2, Flat
+%
+% This shows the results for path 2 where the rover is driven with an ideal
+% torque sources on flat terrain. To simplify the test, we put the rover on
+% flat ground, but follow the same x-y trajectory as the previous test.  We
+% can see the difference in wheel torques.
+
+set_param('mars_rover_terrain/Rover/Chassis/Powertrain','popup_powertrain','Ideal');
+rover_path = rover_path2;
+mars_terrain_set_z('flat');
+sim('mars_rover_terrain');
+mars_rover_terrain_plot1_chassis_path
+mars_rover_terrain_plot3_wheelspdtrq
+mars_rover_terrain_plot2_arm_path(logsout_mars_rover_terrain)
 
 %% Simulation Results from Simscape Logging: Path 2 Electrical
 %
@@ -75,7 +90,7 @@ mars_rover_terrain_plot3_wheelspdtrq
 % of the simulation include the current drawn by the motors as it follows
 % path 2.
 
-set_param(['mars_rover_terrain/Rover/Chassis/Powertrain'],'popup_powertrain','Electrical');
+set_param('mars_rover_terrain/Rover/Chassis/Powertrain','popup_powertrain','Electrical');
 open_system('mars_rover_terrain/Rover/Chassis/Powertrain/Electrical/Drive','force')
 rover_path = rover_path2;
 mars_terrain_set_z('uneven');
@@ -84,21 +99,6 @@ mars_rover_terrain_plot1_chassis_path
 mars_rover_terrain_plot4_motorspdcurr
 mars_rover_terrain_plot2_arm_path(logsout_mars_rover_terrain)
 
-%% Simulation Results from Simscape Logging: Path 2 Electrical, Flat
-%
-% The model is configured to model the electrical system of the powertrain,
-% including 6 motors for propulsion and 4 motors for steering. To simplify
-% the test, we put the rover on flat ground, but follow the same x-y
-% trajectory.  We can see the difference in current drawn by the motors.
-
-set_param(['mars_rover_terrain/Rover/Chassis/Powertrain'],'popup_powertrain','Electrical');
-open_system('mars_rover_terrain/Rover/Chassis/Powertrain/Electrical/Drive','force')
-rover_path = rover_path2;
-mars_terrain_set_z('flat');
-sim('mars_rover_terrain');
-mars_rover_terrain_plot1_chassis_path
-mars_rover_terrain_plot4_motorspdcurr
-mars_rover_terrain_plot2_arm_path(logsout_mars_rover_terrain)
 %%
 
 %clear all

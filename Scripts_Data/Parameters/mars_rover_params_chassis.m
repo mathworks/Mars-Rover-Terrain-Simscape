@@ -1,6 +1,6 @@
 %% Script to setup parameters for the rover  
 
-% Copyright 2021-2022 The MathWorks, Inc
+% Copyright 2021-2023 The MathWorks, Inc
 
 %% Rover Assembly Params
 

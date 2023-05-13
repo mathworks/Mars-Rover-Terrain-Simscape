@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Extracting Point Cloud from STL Geometry: Wheel</title><meta name="generator" content="MATLAB 9.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2022-09-19"><meta name="DC.source" content="mars_rover_workflow_point_cloud.m"><style type="text/css">
+      --><title>Extracting Point Cloud from STL Geometry: Wheel</title><meta name="generator" content="MATLAB 9.14"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2023-03-17"><meta name="DC.source" content="mars_rover_workflow_point_cloud.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -67,7 +67,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Extracting Point Cloud from STL Geometry: Wheel</h1><!--introduction--><p>This example shows MATLAB commands to obtain coordinates for the point cloud that is used to detect collision between the wheels and the ground terrain. The STL file for the wheel tread is read into MATLAB, and then a few commands are used to extract just the points that are useful for the contact and friction force calculation.</p><p>The code used in the example is <a href="matlab:edit('mars_rover_terrain_ptcloud_wheel_create.m')">mars_rover_terrain_ptcloud_wheel_create.m</a>.</p><p>Return to main example <a href="matlab:web('mars_rover_terrain.html');">mars_rover_terrain</a></p><p>Copyright 2021-2022 The MathWorks, Inc</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Read in the STL file, plot mesh</a></li><li><a href="#2">Filter Points Based on Location</a></li><li><a href="#3">Filter Points Based on Location: Caution</a></li><li><a href="#4">Filter Points Using Convex Hull</a></li><li><a href="#5">Reduced Set of Points using Convex Hull and Location-Based Filtering</a></li><li><a href="#6">Use Point Cloud Data in Simscape Model</a></li></ul></div><h2 id="1">Read in the STL file, plot mesh</h2><p>The <a href="matlab:doc('stlread')">stlread</a> and <a href="matlab:doc('trimesh')">trimesh</a> commands are very useful for working with STL files.</p><pre class="codeinput">wheel_stl_points = stlread(<span class="string">'rover_chassis_wheel_tread.stl'</span>);
+  </style></head><body><div class="content"><h1>Extracting Point Cloud from STL Geometry: Wheel</h1><!--introduction--><p>This example shows MATLAB commands to obtain coordinates for the point cloud that is used to detect collision between the wheels and the ground terrain. The STL file for the wheel tread is read into MATLAB, and then a few commands are used to extract just the points that are useful for the contact and friction force calculation.</p><p>The code used in the example is <a href="matlab:edit('mars_rover_terrain_ptcloud_wheel_create.m')">mars_rover_terrain_ptcloud_wheel_create.m</a>.</p><p>Return to main example <a href="matlab:web('mars_rover_terrain.html');">mars_rover_terrain</a></p><p>Copyright 2021-2023 The MathWorks, Inc</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Read in the STL file, plot mesh</a></li><li><a href="#2">Filter Points Based on Location</a></li><li><a href="#3">Filter Points Based on Location: Caution</a></li><li><a href="#4">Filter Points Using Convex Hull</a></li><li><a href="#5">Reduced Set of Points using Convex Hull and Location-Based Filtering</a></li><li><a href="#6">Use Point Cloud Data in Simscape Model</a></li></ul></div><h2 id="1">Read in the STL file, plot mesh</h2><p>The <a href="matlab:doc('stlread')">stlread</a> and <a href="matlab:doc('trimesh')">trimesh</a> commands are very useful for working with STL files.</p><pre class="codeinput">wheel_stl_points = stlread(<span class="string">'rover_chassis_wheel_tread.stl'</span>);
 trimesh(wheel_stl_points,<span class="string">'EdgeColor'</span>,[0.6 0.6 0.6])
 axis <span class="string">equal</span>
 box <span class="string">on</span>
@@ -118,7 +118,7 @@ view(0,12)
 open_system(<span class="string">'mars_rover_terrain/Rover/Chassis/Roll and Steer/Drive/Wheel L1'</span>,<span class="string">'force'</span>)
 </pre><img vspace="5" hspace="5" src="mars_rover_workflow_point_cloud_06.png" alt=""> <pre class="codeinput">bdclose(<span class="string">'mars_rover_terrain'</span>)
 close <span class="string">all</span>
-</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2022b</a><br></p></div><!--
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2023a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% Extracting Point Cloud from STL Geometry: Wheel
 % 
@@ -133,7 +133,7 @@ close <span class="string">all</span>
 % Return to main example <matlab:web('mars_rover_terrain.html');
 % mars_rover_terrain>
 %
-% Copyright 2021-2022 The MathWorks, Inc
+% Copyright 2021-2023 The MathWorks, Inc
 
 
 %% Read in the STL file, plot mesh

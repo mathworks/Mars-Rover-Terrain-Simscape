@@ -1,5 +1,5 @@
 # **Mars Rover Model in Simscape&trade;**
-Copyright 2021-2022 The MathWorks, Inc.
+Copyright 2021-2023 The MathWorks, Inc.
 
 This example models a mars rover that navigates a path on uneven terrain 
 to retrieve a sample.  
@@ -25,7 +25,7 @@ Open the project file Mars_Rover_Terrain.prj to get started.
 ![](Overview/html/mars_rover_terrain_02.png)
 
 ## **Mars Rover Motors and Battery**
-![](Overview/html/mars_rover_terrain_11.png)
+![](Overview/html/mars_rover_terrain_14.png)
 
 To learn more about modeling and simulation with Simscape, please visit:
 * [Simscape Getting Started Resources](https://www.mathworks.com/solutions/physical-modeling/resources.html)

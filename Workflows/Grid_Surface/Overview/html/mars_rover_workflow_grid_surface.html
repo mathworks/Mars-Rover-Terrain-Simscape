@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Generating Grid Surface from STL Geometry: Terrain</title><meta name="generator" content="MATLAB 9.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2022-09-19"><meta name="DC.source" content="mars_rover_workflow_grid_surface.m"><style type="text/css">
+      --><title>Generating Grid Surface from STL Geometry: Terrain</title><meta name="generator" content="MATLAB 9.14"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2023-03-17"><meta name="DC.source" content="mars_rover_workflow_grid_surface.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -67,7 +67,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Generating Grid Surface from STL Geometry: Terrain</h1><!--introduction--><p>This example shows MATLAB commands to generate the scattered grid data used to model a surface using the Grid Surface block. The surface can be used with the Spatial Contact Force block to model objects colliding with or driving over uneven terrain.</p><p>The function used within the example is <a href="matlab:edit('stl_to_gridsurface.m')">stl_to_gridsurface.m</a>:</p><p><tt>mars_terrain_grid = stl_to_gridsurface('mars_terrain.stl',100,100,'n');</tt></p><p>Return to main example <a href="matlab:web('mars_rover_terrain.html');">mars_rover_terrain</a></p><p>Copyright 2021-2022 The MathWorks, Inc</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Read in the STL file, Plot Mesh</a></li><li><a href="#2">Obtain Data for Interpolation</a></li><li><a href="#3">Perform Interpolation</a></li><li><a href="#4">Use Grid Data in Simscape Model</a></li></ul></div><h2 id="1">Read in the STL file, Plot Mesh</h2><p>The <a href="matlab:doc('stlread')">stlread</a> and <a href="matlab:doc('trimesh')">trimesh</a> commands are very useful for working with STL files.</p><p>The mesh below was obtained from <a href="https://touchterrain.geol.iastate.edu/">TouchTerrain</a></p><pre class="codeinput">figure(1);
+  </style></head><body><div class="content"><h1>Generating Grid Surface from STL Geometry: Terrain</h1><!--introduction--><p>This example shows MATLAB commands to generate the scattered grid data used to model a surface using the Grid Surface block. The surface can be used with the Spatial Contact Force block to model objects colliding with or driving over uneven terrain.</p><p>The function used within the example is <a href="matlab:edit('stl_to_gridsurface.m')">stl_to_gridsurface.m</a>:</p><p><tt>mars_terrain_grid = stl_to_gridsurface('mars_terrain.stl',100,100,'n');</tt></p><p>Return to main example <a href="matlab:web('mars_rover_terrain.html');">mars_rover_terrain</a></p><p>Copyright 2021-2023 The MathWorks, Inc</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Read in the STL file, Plot Mesh</a></li><li><a href="#2">Obtain Data for Interpolation</a></li><li><a href="#3">Perform Interpolation</a></li><li><a href="#4">Use Grid Data in Simscape Model</a></li></ul></div><h2 id="1">Read in the STL file, Plot Mesh</h2><p>The <a href="matlab:doc('stlread')">stlread</a> and <a href="matlab:doc('trimesh')">trimesh</a> commands are very useful for working with STL files.</p><p>The mesh below was obtained from <a href="https://touchterrain.geol.iastate.edu/">TouchTerrain</a></p><pre class="codeinput">figure(1);
 terrain_stl_data = stlread(<span class="string">'mars_terrain.stl'</span>);
 terrain_stl_points = terrain_stl_data.Points;
 trimesh(terrain_stl_data,<span class="string">'DisplayName'</span>,<span class="keyword">...</span>
@@ -112,7 +112,7 @@ legend(<span class="string">'Location'</span>,<span class="string">'Best'</span>
 open_system(<span class="string">'mars_rover_terrain/Rover/Terrain'</span>)
 </pre><img vspace="5" hspace="5" src="mars_rover_workflow_grid_surface_03.png" alt=""> <pre class="codeinput">bdclose(<span class="string">'mars_rover_terrain'</span>)
 close <span class="string">all</span>
-</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2022b</a><br></p></div><!--
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2023a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% Generating Grid Surface from STL Geometry: Terrain
 % 
@@ -128,7 +128,7 @@ close <span class="string">all</span>
 % Return to main example <matlab:web('mars_rover_terrain.html');
 % mars_rover_terrain>
 %
-% Copyright 2021-2022 The MathWorks, Inc
+% Copyright 2021-2023 The MathWorks, Inc
 
 %% Read in the STL file, Plot Mesh
 %

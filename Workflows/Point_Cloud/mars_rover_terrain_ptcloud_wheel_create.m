@@ -16,7 +16,7 @@ function point_cloud = mars_rover_terrain_ptcloud_wheel_create(stlfilename,varar
 %
 %  mars_rover_terrain_ptcloud_wheel_create('rover_chassis_wheel_tread.stl');
 
-% Copyright 2021-2022 The MathWorks, Inc
+% Copyright 2021-2023 The MathWorks, Inc
 
 point_option  = 'convex hull';  % Default option
 pc_min_radius = 20.804;         % Good radius value

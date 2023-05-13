@@ -1,5 +1,5 @@
 % Define end effector targets
-% Copyright 2021-2022 The MathWorks, Inc.
+% Copyright 2021-2023 The MathWorks, Inc.
 
 % Each row of the matrix specifies the target position and orientation of
 % the frame at the tip of the robot (end effector) relative to the base of
