@@ -1,12 +1,17 @@
-
-<!DOCTYPE html
-  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html><head>
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-   <!--
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Extracting Point Cloud from STL Geometry: Wheel</title><meta name="generator" content="MATLAB 9.14"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2023-03-17"><meta name="DC.source" content="mars_rover_workflow_point_cloud.m"><style type="text/css">
+      -->
+<title>Extracting Point Cloud from STL Geometry: Wheel</title>
+<meta name="generator" content="MATLAB 23.2">
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
+<meta name="DC.date" content="2023-09-14">
+<meta name="DC.source" content="mars_rover_workflow_point_cloud.m">
+<style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -67,12 +72,52 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Extracting Point Cloud from STL Geometry: Wheel</h1><!--introduction--><p>This example shows MATLAB commands to obtain coordinates for the point cloud that is used to detect collision between the wheels and the ground terrain. The STL file for the wheel tread is read into MATLAB, and then a few commands are used to extract just the points that are useful for the contact and friction force calculation.</p><p>The code used in the example is <a href="matlab:edit('mars_rover_terrain_ptcloud_wheel_create.m')">mars_rover_terrain_ptcloud_wheel_create.m</a>.</p><p>Return to main example <a href="matlab:web('mars_rover_terrain.html');">mars_rover_terrain</a></p><p>Copyright 2021-2023 The MathWorks, Inc</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Read in the STL file, plot mesh</a></li><li><a href="#2">Filter Points Based on Location</a></li><li><a href="#3">Filter Points Based on Location: Caution</a></li><li><a href="#4">Filter Points Using Convex Hull</a></li><li><a href="#5">Reduced Set of Points using Convex Hull and Location-Based Filtering</a></li><li><a href="#6">Use Point Cloud Data in Simscape Model</a></li></ul></div><h2 id="1">Read in the STL file, plot mesh</h2><p>The <a href="matlab:doc('stlread')">stlread</a> and <a href="matlab:doc('trimesh')">trimesh</a> commands are very useful for working with STL files.</p><pre class="codeinput">wheel_stl_points = stlread(<span class="string">'rover_chassis_wheel_tread.stl'</span>);
+  </style>
+</head>
+<body>
+<div class="content">
+<h1>Extracting Point Cloud from STL Geometry: Wheel</h1>
+<!--introduction-->
+<p>This example shows MATLAB commands to obtain coordinates for the point cloud that is used to detect collision between the wheels and the ground terrain. The STL file for the wheel tread is read into MATLAB, and then a few commands are used to extract just the points that are useful for the contact and friction force calculation.</p>
+<p>The code used in the example is <a href="matlab:edit('mars_rover_terrain_ptcloud_wheel_create.m')">mars_rover_terrain_ptcloud_wheel_create.m</a>.</p>
+<p>Return to main example <a href="matlab:web('mars_rover_terrain.html');">mars_rover_terrain</a>
+</p>
+<p>Copyright 2021-2023 The MathWorks, Inc</p>
+<!--/introduction-->
+<h2>Contents</h2>
+<div>
+<ul>
+<li>
+<a href="#1">Read in the STL file, plot mesh</a>
+</li>
+<li>
+<a href="#2">Filter Points Based on Location</a>
+</li>
+<li>
+<a href="#3">Filter Points Based on Location: Caution</a>
+</li>
+<li>
+<a href="#4">Filter Points Using Convex Hull</a>
+</li>
+<li>
+<a href="#5">Reduced Set of Points using Convex Hull and Location-Based Filtering</a>
+</li>
+<li>
+<a href="#6">Use Point Cloud Data in Simscape Model</a>
+</li>
+</ul>
+</div>
+<h2 id="1">Read in the STL file, plot mesh</h2>
+<p>The <a href="matlab:doc('stlread')">stlread</a> and <a href="matlab:doc('trimesh')">trimesh</a> commands are very useful for working with STL files.</p>
+<pre class="codeinput">wheel_stl_points = stlread(<span class="string">'rover_chassis_wheel_tread.stl'</span>);
 trimesh(wheel_stl_points,<span class="string">'EdgeColor'</span>,[0.6 0.6 0.6])
 axis <span class="string">equal</span>
 box <span class="string">on</span>
 title(<span class="string">'STL Mesh'</span>)
-</pre><img vspace="5" hspace="5" src="mars_rover_workflow_point_cloud_01.png" alt=""> <h2 id="2">Filter Points Based on Location</h2><p>As the data is all in x-y-z coordinates, we could look for points on the edge of the wheel on the tips of the fins.  With STL files, you sometimes need to eliminate duplicate points using the MATLAB command <a href="matlab:doc('unique')">unique</a>.  The code below finds points on the wheel edge that are outside a specified radius.</p><pre class="codeinput">wheel_stl_points_unique = unique(wheel_stl_points.Points,<span class="string">'Rows'</span>);
+</pre>
+<img vspace="5" hspace="5" src="mars_rover_workflow_point_cloud_01.png" alt=""> <h2 id="2">Filter Points Based on Location</h2>
+<p>As the data is all in x-y-z coordinates, we could look for points on the edge of the wheel on the tips of the fins. With STL files, you sometimes need to eliminate duplicate points using the MATLAB command <a href="matlab:doc('unique')">unique</a>. The code below finds points on the wheel edge that are outside a specified radius.</p>
+<pre class="codeinput">wheel_stl_points_unique = unique(wheel_stl_points.Points,<span class="string">'Rows'</span>);
 
 point_radius = sqrt(wheel_stl_points_unique(:,1).^2 + wheel_stl_points_unique(:,3).^2);
 
@@ -87,7 +132,10 @@ axis <span class="string">equal</span>
 box <span class="string">on</span>
 hold <span class="string">off</span>
 title(<span class="string">'Points for Inner Edge'</span>)
-</pre><img vspace="5" hspace="5" src="mars_rover_workflow_point_cloud_02.png" alt=""> <h2 id="3">Filter Points Based on Location: Caution</h2><p>Filtering by location can be challenging if the point cloud is not aligned with or centered about a certain axis or plane.  This can be seen on the wheel if we change the threshold radius for including points.</p><pre class="codeinput">edge_points = wheel_stl_points_unique(<span class="keyword">...</span>
+</pre>
+<img vspace="5" hspace="5" src="mars_rover_workflow_point_cloud_02.png" alt=""> <h2 id="3">Filter Points Based on Location: Caution</h2>
+<p>Filtering by location can be challenging if the point cloud is not aligned with or centered about a certain axis or plane. This can be seen on the wheel if we change the threshold radius for including points.</p>
+<pre class="codeinput">edge_points = wheel_stl_points_unique(<span class="keyword">...</span>
     intersect(find(point_radius&gt;=20.5),find(wheel_stl_points_unique(:,2)&lt;-0.049)),:);
 
 figure(2)
@@ -99,7 +147,11 @@ box <span class="string">on</span>
 hold <span class="string">off</span>
 title(<span class="string">'Points for Inner Edge: Asymmetric Result'</span>)
 view(0,12)
-</pre><img vspace="5" hspace="5" src="mars_rover_workflow_point_cloud_03.png" alt=""> <h2 id="4">Filter Points Using Convex Hull</h2><p>Another method which is useful is extracting the points that form a convex hull. This is the smallest set of points that completely contains the shape, which for our wheel is useful. The resulting set would work for modeling contact between the wheel and the ground, but has many more points than we need for relatively smooth terrain.</p><p>Obtaining this set of points uses <a href="matlab:doc('delaunayTriangulation')">delaunayTriangulation</a> and <a href="matlab:doc('convexHull')">convexHull</a>.</p><pre class="codeinput">wheel_stl_points_tri = delaunayTriangulation(wheel_stl_points_unique);
+</pre>
+<img vspace="5" hspace="5" src="mars_rover_workflow_point_cloud_03.png" alt=""> <h2 id="4">Filter Points Using Convex Hull</h2>
+<p>Another method which is useful is extracting the points that form a convex hull. This is the smallest set of points that completely contains the shape, which for our wheel is useful. The resulting set would work for modeling contact between the wheel and the ground, but has many more points than we need for relatively smooth terrain.</p>
+<p>Obtaining this set of points uses <a href="matlab:doc('delaunayTriangulation')">delaunayTriangulation</a> and <a href="matlab:doc('convexHull')">convexHull</a>.</p>
+<pre class="codeinput">wheel_stl_points_tri = delaunayTriangulation(wheel_stl_points_unique);
 cvh_inds  = convexHull(wheel_stl_points_tri);
 
 figure(3)
@@ -113,12 +165,27 @@ box <span class="string">on</span>
 hold <span class="string">off</span>
 title(<span class="string">'Points Using Convex Hull'</span>)
 view(0,12)
-</pre><img vspace="5" hspace="5" src="mars_rover_workflow_point_cloud_04.png" alt=""> <h2 id="5">Reduced Set of Points using Convex Hull and Location-Based Filtering</h2><p>Combining these two techniques we can obtain a set of points that is sufficient to accurately model contact and permits efficient simulation. The code used to extract the point is <a href="matlab:edit('mars_rover_terrain_ptcloud_wheel_create')">mars_rover_terrain_ptcloud_wheel_create.m</a></p><pre class="codeinput">mars_rover_terrain_ptcloud_wheel_create(<span class="string">'rover_chassis_wheel_tread.stl'</span>);
-</pre><img vspace="5" hspace="5" src="mars_rover_workflow_point_cloud_05.png" alt=""> <h2 id="6">Use Point Cloud Data in Simscape Model</h2><p>The point cloud data (x-y-z data) can be used to define a point cloud for use with contact modeling.  In the rover model, this data is entered into the Point Cloud block.</p><pre class="codeinput">load_system(<span class="string">'mars_rover_terrain'</span>);
+</pre>
+<img vspace="5" hspace="5" src="mars_rover_workflow_point_cloud_04.png" alt=""> <h2 id="5">Reduced Set of Points using Convex Hull and Location-Based Filtering</h2>
+<p>Combining these two techniques we can obtain a set of points that is sufficient to accurately model contact and permits efficient simulation. The code used to extract the point is <a href="matlab:edit('mars_rover_terrain_ptcloud_wheel_create')">mars_rover_terrain_ptcloud_wheel_create.m</a>
+</p>
+<pre class="codeinput">mars_rover_terrain_ptcloud_wheel_create(<span class="string">'rover_chassis_wheel_tread.stl'</span>);
+</pre>
+<img vspace="5" hspace="5" src="mars_rover_workflow_point_cloud_05.png" alt=""> <h2 id="6">Use Point Cloud Data in Simscape Model</h2>
+<p>The point cloud data (x-y-z data) can be used to define a point cloud for use with contact modeling. In the rover model, this data is entered into the Point Cloud block.</p>
+<pre class="codeinput">load_system(<span class="string">'mars_rover_terrain'</span>);
 open_system(<span class="string">'mars_rover_terrain/Rover/Chassis/Roll and Steer/Drive/Wheel L1'</span>,<span class="string">'force'</span>)
-</pre><img vspace="5" hspace="5" src="mars_rover_workflow_point_cloud_06.png" alt=""> <pre class="codeinput">bdclose(<span class="string">'mars_rover_terrain'</span>)
+</pre>
+<img vspace="5" hspace="5" src="mars_rover_workflow_point_cloud_06.png" alt=""> <pre class="codeinput">bdclose(<span class="string">'mars_rover_terrain'</span>)
 close <span class="string">all</span>
-</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2023a</a><br></p></div><!--
+</pre>
+<p class="footer">
+<br>
+<a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2023b</a>
+<br>
+</p>
+</div>
+<!--
 ##### SOURCE BEGIN #####
 %% Extracting Point Cloud from STL Geometry: Wheel
 % 
@@ -241,4 +308,6 @@ bdclose('mars_rover_terrain')
 close all
 
 ##### SOURCE END #####
---></body></html>
+-->
+</body>
+</html>

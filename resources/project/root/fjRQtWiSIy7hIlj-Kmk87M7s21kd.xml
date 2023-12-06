@@ -1,31 +1,31 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <Info Location="FileClassCategory">
-    <Info ReadOnly="1" SingleValued="1" DataType="None" Name="Classification"/>
+    <Info DataType="None" Name="Classification" ReadOnly="1" SingleValued="1"/>
     <Label Location="3939b07b-7b17-42cd-8dff-04b20a51bc50">
-        <Info ReadOnly="WRITABLE" Name="ForDeveloper"/>
+        <Info Name="ForDeveloper" ReadOnly="WRITABLE"/>
     </Label>
     <Label Location="96c40e67-021b-48a2-9371-288e60f8854b">
-        <Info ReadOnly="WRITABLE" Name="ForUser"/>
+        <Info Name="ForUser" ReadOnly="WRITABLE"/>
     </Label>
     <Label Location="artifact">
-        <Info ReadOnly="READ_ONLY" Name="Artifact"/>
+        <Info Name="Artifact" ReadOnly="READ_ONLY"/>
     </Label>
     <Label Location="convenience">
-        <Info ReadOnly="READ_ONLY" Name="Convenience"/>
+        <Info Name="Convenience" ReadOnly="READ_ONLY"/>
     </Label>
     <Label Location="derived">
-        <Info ReadOnly="READ_ONLY" Name="Derived"/>
+        <Info Name="Derived" ReadOnly="READ_ONLY"/>
     </Label>
     <Label Location="design">
-        <Info ReadOnly="READ_ONLY" Name="Design"/>
+        <Info Name="Design" ReadOnly="READ_ONLY"/>
     </Label>
     <Label Location="none">
-        <Info ReadOnly="READ_ONLY" Name="None"/>
+        <Info Name="None" ReadOnly="READ_ONLY"/>
     </Label>
     <Label Location="other">
-        <Info ReadOnly="READ_ONLY" Name="Other"/>
+        <Info Name="Other" ReadOnly="READ_ONLY"/>
     </Label>
     <Label Location="test">
-        <Info ReadOnly="READ_ONLY" Name="Test"/>
+        <Info Name="Test" ReadOnly="READ_ONLY"/>
     </Label>
 </Info>

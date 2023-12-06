@@ -1,2 +1,2 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<Info Type="Basic" Visible="1" Icon="" File="Workflows/Inverse_Kinematics/mars_rover_arm.slx" Name="mars_rover_arm"/>
+<Info File="Workflows/Inverse_Kinematics/mars_rover_arm.slx" Icon="" Name="mars_rover_arm" Type="Basic" Visible="1"/>

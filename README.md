@@ -10,10 +10,10 @@ to retrieve a sample.
   trajectories that will enable the arm to acquire and store the sample.
 * **Electric motors** can be used to estimate rover power consumption.
 
+View on File Exchange: [![View Mars Rover Model in Simscape on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/105700-mars-rover-model-in-simscape)  
+You can also open in MATLAB Online: [![Open in MATLAB Online](https://www.mathworks.com/images/responsive/global/open-in-matlab-online.svg)](https://matlab.mathworks.com/open/github/v1?repo=mathworks/Mars-Rover-Terrain-Simscape&project=Mars_Rover_Terrain.prj)
 
 Open the project file Mars_Rover_Terrain.prj to get started.
-
-[![View Mars Rover Model in Simscape on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/105700-mars-rover-model-in-simscape)
 
 ## **Mars Rover Animation Clip**
 ![](Images/mars_rover_terrain_sideview_clip.gif)
