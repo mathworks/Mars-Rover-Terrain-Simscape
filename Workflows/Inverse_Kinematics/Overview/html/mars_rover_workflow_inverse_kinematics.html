@@ -7,9 +7,9 @@ This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
       -->
 <title>Planning Trajectory for Rover Arm: Inverse Kinematics</title>
-<meta name="generator" content="MATLAB 23.2">
+<meta name="generator" content="MATLAB 24.1">
 <link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
-<meta name="DC.date" content="2023-09-14">
+<meta name="DC.date" content="2024-03-21">
 <meta name="DC.source" content="mars_rover_workflow_inverse_kinematics.m">
 <style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
@@ -81,7 +81,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 <p>This example shows how to obtain the joint angles that will enable the end effector of the rover manipulator to pass through specific x-y-z coordinates with a specific orientation. The inverse kinematics object used for the analysis is obtained from a test harness model, <a href="matlab:open_system('mars_rover_arm')">mars_rover_arm</a>, which can be used to test the resulting trajectory.</p>
 <p>Return to main example <a href="matlab:web('mars_rover_terrain.html');">mars_rover_terrain</a>
 </p>
-<p>Copyright 2021-2023 The MathWorks, Inc</p>
+<p>Copyright 2021-2024 The MathWorks, Inc</p>
 <!--/introduction-->
 <h2>Contents</h2>
 <div>
@@ -175,10 +175,6 @@ ans =
 <h2 id="7">Perform IK Analysis to Obtain Joint Angles</h2>
 <p>An inverse kinematics analysis is performed using the <a href="matlab:web(fullfile(docroot,'physmod/sm/ref/simscape.multibody.kinematicssolver.solve.html'))">solve</a> object function to obtain the joint angles that enable the drill tip to pass through the waypoints at the desired orientation. See <a href="matlab:edit('mars_rover_arm_test_joint_space.m')">mars_rover_arm_test_joint_space.m</a> to look at the code that performs this analysis.</p>
 <p>The screenshots below show the arm in the position defined by the solution that comes from the IK analysis at each waypoint. It is displayed using the command <a href="matlab:web(fullfile(docroot,'physmod/sm/ref/viewsolution.html'))">viewSolution</a>.</p>
-<pre class="codeoutput">Error while evaluating TimerFcn for timer 'timer-1'
-
-Invalid or deleted object.
-</pre>
 <p>
 <b>Arm at "Home" Waypoint</b>
 </p>
@@ -224,7 +220,7 @@ Invalid or deleted object.
 </p>
 <img vspace="5" hspace="5" src="mars_rover_workflow_inverse_kinematics_04.png" alt=""> <p class="footer">
 <br>
-<a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2023b</a>
+<a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2024a</a>
 <br>
 </p>
 </div>
@@ -242,7 +238,7 @@ Invalid or deleted object.
 % Return to main example <matlab:web('mars_rover_terrain.html');
 % mars_rover_terrain>
 %
-% Copyright 2021-2023 The MathWorks, Inc
+% Copyright 2021-2024 The MathWorks, Inc
 
 
 %% Open the Test Harness Model

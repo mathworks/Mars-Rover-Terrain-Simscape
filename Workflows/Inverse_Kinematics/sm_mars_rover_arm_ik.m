@@ -5,7 +5,7 @@ function [out,solutionFlag] =  sm_mars_rover_arm_ik(eePose,eeIgs)
 % positions. It also uses initial guesses to guide the solver to the
 % desired solution.
 
-% Copyright 2021-2023 The MathWorks, Inc
+% Copyright 2021-2024 The MathWorks, Inc
 
 persistent ks_mars_rover;
 

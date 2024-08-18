@@ -15,7 +15,7 @@
 % # <matlab:web('mars_rover_workflow_inverse_kinematics.html') Robot Arm Inverse Kinematics>  
 % # <matlab:edit('mars_rover_terrain_path_following.mlx') Path Following>  
 % 
-% Copyright 2021-2023 The MathWorks, Inc.
+% Copyright 2021-2024 The MathWorks, Inc.
 
 %% Model
 

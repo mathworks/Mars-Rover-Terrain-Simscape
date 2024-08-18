@@ -1,6 +1,6 @@
 function mars_terrain_set_z(z_height_option)
 
-% Copyright 2021-2023 The MathWorks, Inc
+% Copyright 2021-2024 The MathWorks, Inc
 
 rover_path = evalin('base','rover_path');
 

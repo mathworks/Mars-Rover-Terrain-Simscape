@@ -1,7 +1,7 @@
 function mars_rover_terrain_plot5_armangles(logsout)
 %% Script to plot the rover path
 
-% Copyright 2021-2023 The MathWorks, Inc
+% Copyright 2021-2024 The MathWorks, Inc
 
 % Figure name
 figString = 'h5_mars_rover_terrain';
