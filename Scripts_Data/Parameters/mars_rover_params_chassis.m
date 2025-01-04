@@ -194,7 +194,7 @@ Rover.Powertrain.Steer.Motor.tc_torque    = 2.0e-05;   % sec
 Rover.Powertrain.Steer.Motor.efficiency   = 25/30*100; % percent
 Rover.Powertrain.Steer.Motor.eff_meas_spd = 5000;      % rpm
 Rover.Powertrain.Steer.Motor.eff_meas_trq = 300;       % N*m
-Rover.Powertrain.Steer.Motor.damping      = 1e-6;      % (N*m/(rad/s))
+Rover.Powertrain.Steer.Motor.damping      = 1.5e-2;      % (N*m/(rad/s))
 Rover.Powertrain.Steer.Motor.gear_ratio   = 243;
 
 Rover.Powertrain.Drive.Motor.max_torque   = 500;       % N*m
@@ -203,7 +203,7 @@ Rover.Powertrain.Drive.Motor.tc_torque    = 2.0e-05;   % sec
 Rover.Powertrain.Drive.Motor.efficiency   = 25/30*100; % percent
 Rover.Powertrain.Drive.Motor.eff_meas_spd = 5000;      % rpm
 Rover.Powertrain.Drive.Motor.eff_meas_trq = 300;       % N*m
-Rover.Powertrain.Drive.Motor.damping      = 1e-6;      % (N*m/(rad/s))
+Rover.Powertrain.Drive.Motor.damping      = 1.5e-2;      % (N*m/(rad/s))
 Rover.Powertrain.Drive.Motor.gear_ratio   = 243;
 
 
