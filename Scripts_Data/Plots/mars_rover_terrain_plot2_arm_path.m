@@ -1,7 +1,7 @@
 function mars_rover_terrain_plot2_arm_path(logsout)
 %% Script to plot the end effector path
 
-% Copyright 2021-2024 The MathWorks, Inc
+% Copyright 2021-2025 The MathWorks, Inc
 
 % Reuse figure if it exists, else create new figure
 if ~exist('h2_mars_rover_terrain', 'var') || ...

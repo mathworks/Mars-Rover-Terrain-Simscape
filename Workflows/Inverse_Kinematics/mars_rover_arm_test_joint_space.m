@@ -1,7 +1,7 @@
 % Script to obtain arm joint angles for 
 % desired end effector positions and orientations.
 
-% Copyright 2021-2024 The MathWorks, Inc.
+% Copyright 2021-2025 The MathWorks, Inc.
 
 % Load model of arm and obtain inverse kinematics object
 [ks_mars_rover] = mars_rover_arm_ik_object_create('open');

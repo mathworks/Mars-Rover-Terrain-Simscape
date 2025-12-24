@@ -1,6 +1,6 @@
 %% Script to plot the rover path
 
-% Copyright 2021-2024 The MathWorks, Inc
+% Copyright 2021-2025 The MathWorks, Inc
 
 % Check for simulation results
 if ~exist('logsout_mars_rover_terrain', 'var')

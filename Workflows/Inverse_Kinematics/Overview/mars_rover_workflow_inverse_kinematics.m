@@ -10,7 +10,7 @@
 % Return to main example <matlab:web('mars_rover_terrain.html');
 % mars_rover_terrain>
 %
-% Copyright 2021-2024 The MathWorks, Inc
+% Copyright 2021-2025 The MathWorks, Inc
 
 
 %% Open the Test Harness Model

@@ -1,6 +1,6 @@
 function plot_stl_point_cloud(stlfilename,pointcloud,varargin)
 
-% Copyright 2021-2024 The MathWorks, Inc
+% Copyright 2021-2025 The MathWorks, Inc
 
 % Default mesh color
 mesh_color = [0.6 0.6 0.6];

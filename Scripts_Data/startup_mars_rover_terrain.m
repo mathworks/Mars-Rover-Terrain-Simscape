@@ -1,5 +1,5 @@
 % Startup script for project 
-% Copyright 2021-2024 The MathWorks, Inc
+% Copyright 2021-2025 The MathWorks, Inc
 
 %% Code for building Simscape custom library at startup
 % Change to folder with package directory

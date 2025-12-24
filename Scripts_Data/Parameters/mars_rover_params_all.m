@@ -1,6 +1,6 @@
 %% Script to setup parameters for the sm_mars_rover model 
 
-% Copyright 2021-2024 The MathWorks, Inc
+% Copyright 2021-2025 The MathWorks, Inc
 
 %% Mars Rover Params
 mars_rover_params_chassis; 
